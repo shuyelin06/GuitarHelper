@@ -15,6 +15,10 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(GuitarHelper src/main.cpp)
+add_executable(GuitarHelper src/main.cpp src/RecorderWindow.cpp src/Recorder.cpp)
 target_compile_features(GuitarHelper PRIVATE cxx_std_17)
+
+target_include_directories(GuitarHelper PRIVATE src)
+
 target_link_libraries(GuitarHelper PRIVATE SFML::Graphics)
+target_link_libraries(GuitarHelper PRIVATE SFML::Audio)
