@@ -15,7 +15,6 @@ private:
     std::vector<std::int16_t> input_data;
 
     std::vector<std::int16_t> data;
-    int head;
     int tail;
 
 public:
@@ -23,9 +22,12 @@ public:
     ~Recorder();
 
     void pullInputAudio();
+    void aggregateData(std::vector<std::int16_t>& output, int aggregate_count);
 
     std::int16_t getSample(int index);
     int getSize();
+    
+    static int SamplingRate();
     
 protected:
     bool onStart() override;

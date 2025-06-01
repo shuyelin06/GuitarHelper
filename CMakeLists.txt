@@ -5,7 +5,9 @@ cmake_minimum_required(VERSION 3.28)
 project(GuitarHelper VERSION 0.0.0 LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_CXX_STANDARD 17)
 
+# Fetch SFML
 include(FetchContent)
 FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
@@ -13,12 +15,19 @@ FetchContent_Declare(SFML
     GIT_SHALLOW ON
     EXCLUDE_FROM_ALL
     SYSTEM)
+FetchContent_GetProperties(SFML)
 FetchContent_MakeAvailable(SFML)
 
-add_executable(GuitarHelper src/main.cpp src/RecorderWindow.cpp src/Recorder.cpp)
-target_compile_features(GuitarHelper PRIVATE cxx_std_17)
+set(SFML_INCLUDE_DIR "${SFML_SOURCE_DIR}/include")
 
+SET(SRC_FILES
+    src/main.cpp 
+    src/Recorder.cpp 
+    src/Fourier.cpp)
+
+# Add each of my directories
+add_subdirectory(src/display)
+
+add_executable(GuitarHelper ${SRC_FILES})
 target_include_directories(GuitarHelper PRIVATE src)
-
-target_link_libraries(GuitarHelper PRIVATE SFML::Graphics)
-target_link_libraries(GuitarHelper PRIVATE SFML::Audio)
+target_link_libraries(GuitarHelper PRIVATE SFML::Graphics SFML::Audio display)
